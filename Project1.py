@@ -39,12 +39,34 @@ def convert_matrix_to_string(matrix):
                 final = final + st1
     return final
 
+def convert_string_to_matrix(string1):
+    li = list()
+    a = str()
+    count = 0
+    for i in string1:
+        a = a + i
+        count += 1
+        if count%2 == 0:
+            li.append(int(a))
+            a = ''
+            count = 0
+    matrix = np.array(li)
+    matrix = np.reshape(matrix, (sh[0], sh[1]))
+    return matrix
+
 def removing_from_queue():
     check = queue1.remove()
     return check
 
 
-####add check if visited function
+def check_if_visited(check):
+    for i in range(len(visited_list)):
+        if check.current == visited_list[i].current:
+            print("visited")
+            return None
+    visited_list.append(check)
+    print("not visited")
+    return check
 
 
 #locates the zero element in the matrix called inside super_move_function
