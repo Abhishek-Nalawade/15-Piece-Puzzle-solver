@@ -114,3 +114,18 @@ def movedown(node1):
         child[locx + 1][locy] = node1[locx][locy]
         #print(currentnode)
         return child
+
+def compare_with_goal(children, parent):
+    child_str = list()
+    parent_str = convert_matrix_to_string(parent)
+
+    #converting matrix to string to check with goal state
+    for i in children:
+        child_str.append(convert_matrix_to_string(i))
+
+    for child in child_str:
+        if goal == child:
+            print("Goal has been reached")
+            return child, parent_str
+        else:
+            queue1.add(node(child, parent_str))
