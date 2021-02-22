@@ -26,6 +26,32 @@ class node():
         self.parent = parent
 
 
+def convert_matrix_to_string(matrix):
+    final = str()
+    for i in range(sh[0]):
+        for j in range(sh[1]):
+            if matrix[i][j] < 10:
+                st = '0'
+                st1 = '{}'.format(matrix[i][j])
+                final = final + st + st1
+            else:
+                st1 = '{}'.format(matrix[i][j])
+                final = final + st1
+    return final
+
+def removing_from_queue():
+    check = queue1.remove()
+    return check
+
+
+####add check if visited function
+
+
+#locates the zero element in the matrix called inside super_move_function
+def locate_0(current):
+    location = np.where(current == 0)
+    return location[0][0], location[1][0]
+
 def moveleft(node1):
     if locy == 0:
         return
