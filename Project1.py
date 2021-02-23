@@ -67,10 +67,10 @@ def removing_from_queue():
 def check_if_visited(check):
     for i in range(len(visited_list)):
         if check.current == visited_list[i].current:
-            print("visited")
+            #print("visited")
             return None
     visited_list.append(check)
-    print("not visited")
+    #print("not visited")
     return check
 
 
@@ -134,7 +134,7 @@ def compare_with_goal(children, parent):
 
     for child in child_str:
         if goal == child:
-            print("Goal has been reached")
+            print("\n Goal has been reached \n")
             return child, parent_str
         else:
             queue1.add(node(child, parent_str))
@@ -149,11 +149,10 @@ test_case_3 = np.array([[0, 2, 3, 4],[1, 5, 7, 8], [9, 6, 11, 12] , [13, 10, 14,
 test_case_4 = np.array([[5, 1, 2, 3],[0, 6, 7, 4], [9, 10, 11, 8] , [13, 14, 15, 12]])
 test_case_5 = np.array([[1, 6, 2, 3], [9, 5, 7, 4], [0, 10, 11, 8] , [13, 14, 15, 12]])
 sh = test_case_1.shape
-initial_str = convert_matrix_to_string(test_case_1)
+initial_str = convert_matrix_to_string(test_case_5)
 first_node = node(initial_str, None)
 queue1 = queue()
 queue1.add(first_node)
-
 
 
 while True:
@@ -167,7 +166,8 @@ while True:
         break
 
 parent_info = child_parent[1]
-print(len(visited_list))
+#print(len(visited_list))
+
 
 #tracing back the parent node
 route = list()
@@ -180,6 +180,7 @@ while parent_info is not None:
 
 file = list()
 
+print("The path from the given test case to the goal state is as follows:")
 #prints the path and also creates a list in order to write the path to the nodePath.txt file
 for i in range(len(route)):
     z = visited_list[route[len(route)-1-i]].current
@@ -198,7 +199,7 @@ for i in range(len(route)):
                 file.append("\n")
 
 
-#attaches the goal state to the nodePath.txt file
+#creates a list of required matrices to write in the nodePath.txt file
 goal_mtx = convert_string_to_matrix(goal)
 print(goal_mtx)
 counter = 0
@@ -211,8 +212,8 @@ for i in goal_mtx:
             file.append("\n")
 
 
-
-fh = open("nodePath.txt", 'w')
+#attaches the goal state to the nodePath.txt file
+fh = open("nodePath_test_case_5.txt", 'w')
 for i in file:
     fh.write(i)
 fh.close()
