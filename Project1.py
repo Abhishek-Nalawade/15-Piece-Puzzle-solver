@@ -74,10 +74,10 @@ def locate_0(current):
     location = np.where(current == 0)
     return location[0][0], location[1][0]
 
-def moveleft(node1):
-    if locy == 0:
-        return
-    else:
+#calls the locate_0 function as well
+def super_move_function(currentnode):
+
+    def moveleft(node1):
         child = node1.copy()
         child[locx][locy] = node1[locx][locy - 1]
         child[locx][locy - 1] = node1[locx][locy]
@@ -85,35 +85,40 @@ def moveleft(node1):
         return child
 
 
-def moveright(node1):
-    if locy != sh[1] -1:
-        return
-    else:
+    def moveright(node1):
         child = node1.copy()
         child[locx][locy] = node1[locx][locy + 1]
         child[locx][locy + 1] = node1[locx][locy]
         #print(currentnode)
         return child
 
-def moveup(node1):
-    if locx != 0:
-        return
-    else:
+    def moveup(node1):
         child = node1.copy()
         child[locx][locy] = node1[locx - 1][locy]
         child[locx - 1][locy] = node1[locx][locy]
         #print(currentnode)
         return child
 
-def movedown(node1):
-    if locx != sh[0]-1:
-        return
-    else:
+    def movedown(node1):
         child = node1.copy()
         child[locx][locy] = node1[locx + 1][locy]
         child[locx + 1][locy] = node1[locx][locy]
         #print(currentnode)
         return child
+
+    node = convert_string_to_matrix(currentnode.current)
+    locx, locy = locate_0(node)
+    new_child = list()
+    if locy != 0:
+        new_child.append(moveleft(node))
+    if locy != sh[1] -1:
+        new_child.append(moveright(node))
+    if locx != 0:
+        new_child.append(moveup(node))
+    if locx != sh[0]-1:
+        new_child.append(movedown(node))
+
+    return new_child, node
 
 def compare_with_goal(children, parent):
     child_str = list()
@@ -129,3 +134,12 @@ def compare_with_goal(children, parent):
             return child, parent_str
         else:
             queue1.add(node(child, parent_str))
+
+visited_list = list()
+goal = '01020304050607080910111213141500'
+test_case_1 = np.array([[1, 2, 3, 4],[5, 6, 0, 8], [9, 10, 7, 12] , [13, 14, 11, 15]])
+sh = test_case_1.shape
+initial_str = convert_matrix_to_string(test_case_5)
+first_node = node(initial_str, None)
+queue1 = queue()
+queue1.add(first_node)
