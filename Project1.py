@@ -54,11 +54,14 @@ def convert_string_to_matrix(string1):
     matrix = np.reshape(matrix, (sh[0], sh[1]))
     return matrix
 
+
+
 def removing_from_queue():
     check = queue1.remove()
     return check
 
 
+#checking if the node has been visited previously and then appending to the visited_list
 def check_if_visited(check):
     for i in range(len(visited_list)):
         if check.current == visited_list[i].current:
@@ -67,6 +70,7 @@ def check_if_visited(check):
     visited_list.append(check)
     print("not visited")
     return check
+
 
 
 #locates the zero element in the matrix called inside super_move_function
@@ -120,6 +124,7 @@ def super_move_function(currentnode):
 
     return new_child, node
 
+#compares new children with goal state and adds them to the queue
 def compare_with_goal(children, parent):
     child_str = list()
     parent_str = convert_matrix_to_string(parent)
@@ -135,11 +140,59 @@ def compare_with_goal(children, parent):
         else:
             queue1.add(node(child, parent_str))
 
+
+
 visited_list = list()
 goal = '01020304050607080910111213141500'
 test_case_1 = np.array([[1, 2, 3, 4],[5, 6, 0, 8], [9, 10, 7, 12] , [13, 14, 11, 15]])
+test_case_2 = np.array([[1, 0, 3, 4],[5, 2, 7, 8], [9, 6, 10, 11] , [13, 14, 15, 12]])
+test_case_3 = np.array([[0, 2, 3, 4],[1, 5, 7, 8], [9, 6, 11, 12] , [13, 10, 14, 15]])
+test_case_4 = np.array([[5, 1, 2, 3],[0, 6, 7, 4], [9, 10, 11, 8] , [13, 14, 15, 12]])
+test_case_5 = np.array([[1, 6, 2, 3], [9, 5, 7, 4], [0, 10, 11, 8] , [13, 14, 15, 12]])
 sh = test_case_1.shape
 initial_str = convert_matrix_to_string(test_case_5)
 first_node = node(initial_str, None)
 queue1 = queue()
 queue1.add(first_node)
+#count = 1
+#print("first",first_node.current)
+#print(sh)
+#visited_list.append(first_node)
+
+
+#print("hg:",hg)
+#test1[locx][locy] = 1
+#############################
+#####while removing from queue add a counter to measure the depth of the tree
+while True:
+    new_parent = None
+    while new_parent is None:
+        new_node = removing_from_queue()
+        new_parent = check_if_visited(new_node)
+    children_list, parent = super_move_function(new_parent)
+    #y = compare_with_goal(children_list)
+    #children_list, parent = super_move_function(first_node)
+    child_parent= compare_with_goal(children_list, parent)
+    if child_parent is not None:
+        break
+print(child_parent)
+parent_info = child_parent[1]
+print(len(visited_list))
+
+#tracing back the parent node
+##add a for loop to iterating value of the depth of the tree
+route = list()
+while parent_info is not None:
+    for i in range(len(visited_list)):
+        if parent_info == visited_list[i].current:
+            parent_info = visited_list[i].parent
+            route.append(i)
+            break
+#print(convert_string_to_matrix(goal))
+
+
+for i in range(len(route)):
+    z = visited_list[route[len(route)-1-i]].current
+    print(convert_string_to_matrix(z))
+
+print(convert_string_to_matrix(goal))
